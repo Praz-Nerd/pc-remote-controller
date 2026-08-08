@@ -26,7 +26,7 @@ import com.client.pcremote.models.RemoteAction
 import com.client.pcremote.models.RemoteCommand
 
 @Composable
-fun RemoteScreen(wsManager: WebSocketManager) {
+fun RemoteScreen(wsManager: WebSocketManager, onOpenSettings: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()

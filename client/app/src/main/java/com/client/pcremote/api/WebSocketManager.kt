@@ -1,24 +1,28 @@
 package com.client.pcremote.api
 
+import android.content.Context
+import android.widget.Toast
 import com.client.pcremote.models.RemoteCommand
 import com.google.gson.Gson
 import okhttp3.*
 
-class WebSocketManager(private val serverUrl: String) {
+class WebSocketManager(ctx: Context) :
+    ContextAwareApiService(ctx) {
     private val client = OkHttpClient()
     private var webSocket: WebSocket? = null
     private val gson = Gson()
 
-    fun connect() {
+    fun connect(serverUrl: String) {
+        disconnect()
         val request = Request.Builder().url(serverUrl).build()
 
         webSocket = client.newWebSocket(request, object : WebSocketListener() {
             override fun onOpen(webSocket: WebSocket, response: Response) {
-                println("Connected to PC Server!")
+                showToast("Connected to PC!")
             }
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                println("Connection failed: ${t.message}")
+                showToast("Connection failed: ${t.message}")
             }
         })
     }
