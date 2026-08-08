@@ -85,22 +85,22 @@ static void ExecuteCommand(RemoteCommand command, IInputService inputService)
     switch (command.Action)
     {
         case RemoteAction.MouseMove:
-            inputService.MoveMouse((MouseMoveCommand)command);
+            Task.Run(() => inputService.MoveMouse((MouseMoveCommand)command));
             break;
         case RemoteAction.LeftClick:
-            inputService.LeftClick();
+            Task.Run(() => inputService.LeftClick());
             break;
         case RemoteAction.RightClick:
-            inputService.RightClick();
+            Task.Run(() => inputService.RightClick());
             break;
         case RemoteAction.VolumeUp:
-            inputService.PressKey(KeyCode.VolumeUp);
+            Task.Run(() => inputService.PressKey(KeyCode.VolumeUp));
             break;
         case RemoteAction.VolumeDown:
-            inputService.PressKey(KeyCode.VolumeDown);
+            Task.Run(() => inputService.PressKey(KeyCode.VolumeDown));
             break;
         case RemoteAction.Mute:
-            inputService.PressKey(KeyCode.Mute);
+            Task.Run(() => inputService.PressKey(KeyCode.Mute));
             break;
     }
 }
