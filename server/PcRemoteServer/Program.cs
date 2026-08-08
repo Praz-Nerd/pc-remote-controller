@@ -17,6 +17,8 @@ var jsonOptions = new JsonSerializerOptions
     Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseLower) }
 };
 
+app.MapGet("/", () => "PC Remote Server is running. Connect via WebSocket at /ws.");
+
 app.Map("/ws", async (HttpContext context, IInputService inputService) =>
 {
     if (!context.WebSockets.IsWebSocketRequest)
@@ -40,9 +42,8 @@ app.Map("/ws", async (HttpContext context, IInputService inputService) =>
                 break;
             }
 
-            // Always deserialize directly to the object; never touch the raw JSON string manually
             using var document = JsonDocument.Parse(buffer.AsMemory(0, result.Count));
-            var command = document.Deserialize<RemoteCommand>(jsonOptions);
+            var command = DeserializeCommand(document.RootElement.GetRawText(), jsonOptions);
 
             if (command != null)
             {
@@ -55,6 +56,29 @@ app.Map("/ws", async (HttpContext context, IInputService inputService) =>
         Console.WriteLine($"Socket error: {ex.Message}");
     }
 });
+
+static RemoteCommand? DeserializeCommand(string json, JsonSerializerOptions options)
+{
+    try
+    {
+        var command = JsonSerializer.Deserialize<RemoteCommand>(json, options);
+
+        if (command != null)
+            switch (command.Action)
+            {
+                case RemoteAction.MouseMove:
+                    command = JsonSerializer.Deserialize<MouseMoveCommand>(json, options);
+                    break;
+            }
+
+        return command;
+    }
+    catch (JsonException ex)
+    {
+        Console.WriteLine($"JSON deserialization error: {ex.Message}");
+        return null;
+    }
+}
 
 static void ExecuteCommand(RemoteCommand command, IInputService inputService)
 {
