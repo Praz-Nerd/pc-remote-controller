@@ -14,6 +14,11 @@ namespace PcRemoteServer.Services
             _ipCountLimit = ipCountLimit;
         }
 
+        public ConcurrentDictionary<string, DateTime> GetAllowlist()
+        {
+            return _allowlist;
+        }
+
         public bool RegisterIp(string? ipAddress)
         {
             bool result = false;

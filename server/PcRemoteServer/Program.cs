@@ -19,6 +19,12 @@ var jsonOptions = new JsonSerializerOptions
 
 app.MapGet("/", () => "PC Remote Server is running.");
 
+app.MapGet("/allowlist", (IpAllowlistStore ipStore) =>
+{
+    var allowlist = ipStore.GetAllowlist();
+    return Results.Ok(allowlist);
+});
+
 app.MapPost("/register", (IpAllowlistStore ipStore, HttpContext context) =>
 {
     var ipAddress = context.Connection.RemoteIpAddress?.ToString();
