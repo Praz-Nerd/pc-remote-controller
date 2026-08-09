@@ -13,26 +13,42 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.client.pcremote.api.WebSocketManager
+import com.client.pcremote.R
+import com.client.pcremote.api.DatagramManager
 import com.client.pcremote.models.MouseMoveCommand
 import com.client.pcremote.models.RemoteAction
 import com.client.pcremote.models.RemoteCommand
 
 @Composable
-fun RemoteScreen(wsManager: WebSocketManager, onOpenSettings: () -> Unit) {
+fun RemoteScreen(networkManager: DatagramManager, onOpenSettings: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ) {
+            Button(onClick = onOpenSettings) {
+                Text(stringResource(R.string.settings))
+            }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         // 1. The Touchpad Zone
         Touchpad(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth(),
+            onTap = {
+                networkManager.sendCommand(RemoteCommand(RemoteAction.LEFT_CLICK))
+            },
             onMouseMove = { dx, dy ->
-                wsManager.sendCommand(MouseMoveCommand(dx, dy))
+                networkManager.sendCommand(MouseMoveCommand(dx, dy))
             }
         )
 
@@ -45,16 +61,16 @@ fun RemoteScreen(wsManager: WebSocketManager, onOpenSettings: () -> Unit) {
         ) {
             Button(
                 modifier = Modifier.weight(1f).padding(end = 8.dp),
-                onClick = { wsManager.sendCommand(RemoteCommand(RemoteAction.LEFT_CLICK)) }
+                onClick = { networkManager.sendCommand(RemoteCommand(RemoteAction.LEFT_CLICK)) }
             ) {
-                Text("Left Click")
+                Text(stringResource(R.string.left_click))
             }
 
             Button(
                 modifier = Modifier.weight(1f).padding(start = 8.dp),
-                onClick = { wsManager.sendCommand(RemoteCommand(RemoteAction.RIGHT_CLICK)) }
+                onClick = { networkManager.sendCommand(RemoteCommand(RemoteAction.RIGHT_CLICK)) }
             ) {
-                Text("Right Click")
+                Text(stringResource(R.string.right_click))
             }
         }
     }

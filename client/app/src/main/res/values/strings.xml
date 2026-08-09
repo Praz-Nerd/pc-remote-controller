@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">PC Remote</string>
+    <string name="connection_setup">Connection Setup</string>
+    <string name="ip_label">PC IP Address (e.g. 192.168.1.101)</string>
+    <string name="port_label">Port (Default: 5201)</string>
+    <string name="save_connect">Save &amp; Connect</string>
+    <string name="left_click">Left Click</string>
+    <string name="right_click">Right Click</string>
+    <string name="settings">Settings</string>
+    <string name="back">Back</string>
+    <string name="failed_to_connect">Failed to connect: %s</string>
+    <string name="server_error">Server responded with error: %d</string>
+    <string name="config_missing">Server configuration missing</string>
 </resources>

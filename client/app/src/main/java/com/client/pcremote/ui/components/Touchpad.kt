@@ -2,6 +2,7 @@ package com.client.pcremote.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,7 +21,8 @@ import kotlin.time.Duration.Companion.milliseconds
 @Composable
 fun Touchpad(
     modifier: Modifier = Modifier,
-    sensitivity: Float = 0.5f,
+    sensitivity: Float = 1.3f,
+    onTap: () -> Unit = {},
     onMouseMove: (Int, Int) -> Unit // Callback to the parent
 ) {
     var queuedX by remember { mutableFloatStateOf(0f) }
@@ -45,6 +47,9 @@ fun Touchpad(
     Box(
         modifier = modifier
             .background(Color.DarkGray)
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = { onTap() })
+            }
             .pointerInput(Unit) {
                 detectDragGestures(
                     onDragEnd = {
