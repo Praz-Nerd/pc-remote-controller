@@ -93,6 +93,18 @@ public class UdpListenerService : BackgroundService
             case RemoteAction.LeftClick:
                 _ = Task.Run(() => _inputService.LeftClick());
                 break;
+            case RemoteAction.PressAndHoldLeftClick:
+                _ = Task.Run(() => _inputService.PressAndHoldLeftClick());
+                break;
+            case RemoteAction.ReleaseLeftClick:
+                _ = Task.Run(() => _inputService.ReleaseLeftClick());
+                break;
+            case RemoteAction.PressAndHoldRightClick:
+                _ = Task.Run(() => _inputService.PressAndHoldRightClick());
+                break;
+            case RemoteAction.ReleaseRightClick:
+                _ = Task.Run(() => _inputService.ReleaseRightClick());
+                break;
             case RemoteAction.RightClick:
                 _ = Task.Run(() => _inputService.RightClick());
                 break;

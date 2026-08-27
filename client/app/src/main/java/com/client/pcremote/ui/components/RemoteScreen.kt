@@ -22,23 +22,12 @@ import com.client.pcremote.models.RemoteAction
 import com.client.pcremote.models.RemoteCommand
 
 @Composable
-fun RemoteScreen(networkManager: DatagramManager, onOpenSettings: () -> Unit) {
+fun RemoteScreen(networkManager: DatagramManager) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
-        ) {
-            Button(onClick = onOpenSettings) {
-                Text(stringResource(R.string.settings))
-            }
-        }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
         // 1. The Touchpad Zone
         Touchpad(
             modifier = Modifier

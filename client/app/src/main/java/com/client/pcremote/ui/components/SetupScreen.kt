@@ -1,5 +1,6 @@
 package com.client.pcremote.ui.components
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -19,9 +20,14 @@ fun SetupScreen(
     var port by remember { mutableStateOf(initialPort) }
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .navigationBarsPadding()
+            .padding(16.dp),
     ) {
         if (onBack != null) {
+            BackHandler(onBack = onBack)
             TextButton(onClick = onBack) {
                 Text("< " + stringResource(R.string.back))
             }

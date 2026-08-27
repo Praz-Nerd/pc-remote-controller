@@ -16,19 +16,19 @@ class DatagramManager(private val context: Context) : ContextAwareApiService(con
     private val udpWorker = Executors.newSingleThreadExecutor()
     private var udpSocket = DatagramSocket()
     
-    private var targetIp: String = settingsManager.getServerIp() ?: ""
     private val udpPort: Int
         get() = settingsManager.getServerPort()?.toIntOrNull() ?: 5201
 
     fun sendCommand(command: RemoteCommand) {
-        if (targetIp.isBlank()) return
-
         // Network calls must run on a background thread
         udpWorker.execute {
             try {
+                val ip = settingsManager.getServerIp() ?: return@execute
+                if (ip.isBlank()) return@execute
+
                 val jsonString = gson.toJson(command)
                 val bytes = jsonString.toByteArray()
-                val address = InetAddress.getByName(targetIp)
+                val address = InetAddress.getByName(ip)
 
                 val packet = DatagramPacket(bytes, bytes.size, address, udpPort)
                 udpSocket.send(packet)

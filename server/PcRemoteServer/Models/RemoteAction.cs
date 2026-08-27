@@ -4,7 +4,11 @@
     {
         MouseMove,
         LeftClick,
+        PressAndHoldLeftClick,
+        ReleaseLeftClick,
         RightClick,
+        PressAndHoldRightClick,
+        ReleaseRightClick,
         VolumeUp,
         VolumeDown,
         Mute
